@@ -68,8 +68,6 @@ function init() {
   // ここの光で影を作ってる
   directionalLight.castShadow = true;
   light = new THREE.AmbientLight();
-  light.name = "light";
-  directionalLight.name = "directionalLight";
   scene.add(light);
   scene.add(directionalLight);
 
@@ -85,8 +83,7 @@ function init() {
     opacity: 0.15,
   }));
   shadowMesh.receiveShadow = true;
-  shadowMesh.name = "shadowMesh"
-  //scene.add(shadowMesh);
+  scene.add(shadowMesh);
 
   THREE.ARUtils.loadModel({
     objPath: OBJ_PATH,
@@ -100,13 +97,11 @@ function init() {
 
     model.scale.set(SCALE, SCALE, SCALE);
     model.position.set(10000, 10000, 10000);
-    model.name = "abe";
     scene.add(model);
   });
 
   window.addEventListener('resize', onWindowResize, false);
   canvas.addEventListener('click', spawn, false);
-  canvas.addEventListener('mousedown', test, false);
 
   update();
 }
@@ -140,60 +135,70 @@ function onWindowResize() {
 
 //オブジェクトを描画するための関数
 function spawn(e) {
-  var x = e.clientX / window.innerWidth;
-  var y = e.clientY / window.innerHeight;
+  // マウスクリック位置を正規化
+  var mouse = new THREE.Vector2();
+  mouse.x =  ( e.clientX / window.innerWidth ) * 2 - 1;
+  mouse.y = -( e.clientY / window.innerHeight ) * 2 + 1;
 
-  //擬似的な光線を発射し、(おそらく床用のオブジェクトとの)衝突判定を行っている
-  var hits = vrDisplay.hitTest(x, y);
+  var raycaster = new THREE.Raycaster();
+  raycaster.setFromCamera( mouse, camera );
+  var intersects = raycaster.intersectObjects( scene.children );
 
-  if(!model) {
-    console.warn('Model not yet loaded');
-    return;
-  }
+  if(intersects.length == 0) {
+    var x = e.clientX / window.innerWidth;
+    var y = e.clientY / window.innerHeight;
 
-  // 衝突したらオブジェクトを描画
-  if(hits && hits.length) {
-    var hit = hits[0];
+    //擬似的な光線を発射し、(おそらく床用のオブジェクトとの)衝突判定を行っている
+    var hits = vrDisplay.hitTest(x, y);
 
-    //これで現実世界の床の上になるような正しい位置(かつ影がうまいこと表示できる位置)を取得
-    //どうやら影をうまいこと描画するプロセスが複雑らしいが詳しいことは割愛(わかる方いたら教えてください)
-    var matrix = new THREE.Matrix4();
-    var position = new THREE.Vector3();
-    matrix.fromArray(hit.modelMatrix);
-    position.setFromMatrixPosition(matrix);
+    /*if (!model) {
+      console.warn('Model not yet loaded');
+      return;
+    }*/
 
-    // 影をセット、今後その影も現実に合わせて回転するようになるっぽい？
-    //shadowMesh.position.y = position.y;
+    // 衝突したらオブジェクトを描画
+    /*if(hits && hits.length) {
+      var hit = hits[0];
 
-    // モデルをその場所にセット
-    THREE.ARUtils.placeObjectAtHit(model,hit,1,true);
+      THREE.ARUtils.loadModel({
+        objPath: OBJ_PATH,
+        mtlPath: MTL_PATH,
+        OBJLoader: undefined, // uses window.THREE.OBJLoader by default
+        MTLLoader: undefined, // uses window.THREE.MTLLoader by default
+      }).then(function(group) {
+        model = group;
+        // objectの持ってる全てのメッシュに影を追加する
+        model.children.forEach(function(mesh) { mesh.castShadow = true; });
 
-    // 現実のカメラに合わせてオブジェクトを回転
-    var angle = Math.atan2(
-      camera.position.x - model.position.x,
-      camera.position.z - model.position.z
-    );
-    model.rotation.set(0, angle, 0);
+        model.scale.set(SCALE, SCALE, SCALE);
+        model.position.set(10000, 10000, 10000);
+        scene.add(model);
+      });*/
+
+      //これで現実世界の床の上になるような正しい位置(かつ影がうまいこと表示できる位置)を取得
+      //どうやら影をうまいこと描画するプロセスが複雑らしいが詳しいことは割愛(わかる方いたら教えてください)
+      var matrix = new THREE.Matrix4();
+      var position = new THREE.Vector3();
+      matrix.fromArray(hit.modelMatrix);
+      position.setFromMatrixPosition(matrix);
+
+      // 影をセット、今後その影も現実に合わせて回転するようになるっぽい？
+      shadowMesh.position.y = position.y;
+
+      // モデルをその場所にセット
+      THREE.ARUtils.placeObjectAtHit(model,hit,1,true);
+
+      // 現実のカメラに合わせてオブジェクトを回転
+      var angle = Math.atan2(
+        camera.position.x - model.position.x,
+        camera.position.z - model.position.z
+      );
+      model.rotation.set(0, angle, 0);
+    }
+  } else {
+    //alert(intersects[0].object.name);
   }
 }
-
-
-function test(ret) {
-  var mouseX = ret.clientX;                           // マウスのx座標
-  var mouseY = ret.clientY;                           // マウスのy座標
-  mouseX =  (mouseX / window.innerWidth)  * 2 - 1;    // -1 ～ +1 に正規化されたx座標
-  mouseY = -(mouseY / window.innerHeight) * 2 + 1;    // -1 ～ +1 に正規化されたy座標
-  var pos = new THREE.Vector3(mouseX, mouseY, 1);     // マウスベクトル
-  pos.unproject(camera);                              // スクリーン座標系をカメラ座標系に変換
-  // レイキャスタを作成（始点, 向きのベクトル）
-  var ray = new THREE.Raycaster(camera.position, pos.sub(camera.position).normalize());
-  var obj = ray.intersectObjects(scene.children, true);   // レイと交差したオブジェクトの取得
-  if(obj.length > 0) {                                // 交差したオブジェクトがあれば
-    //picked(obj[0].object.name);                       // ピックされた対象に応じた処理を実行
-    alert(obj[0].object.name);
-  }
-};
-
 
 function gps() {
   // 対応している場合
