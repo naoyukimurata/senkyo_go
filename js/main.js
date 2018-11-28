@@ -73,21 +73,6 @@ function init() {
   scene.add(light);
   scene.add(directionalLight);
 
-  // 影を映すためのオブジェクト
-  planeGeometry = new THREE.PlaneGeometry(2000, 2000);
-  // 現実の床に合わせて回転させてる
-  planeGeometry.rotateX(-Math.PI / 2);
-
-  // 影を含むメッシュを作成してる
-  //メッシュじゃないほうがいい場合はreceiveShadowをfalseにすれば影をレンダリングするだけになる
-  shadowMesh = new THREE.Mesh(planeGeometry, new THREE.ShadowMaterial({
-    color: 0x111111,
-    opacity: 0.15,
-  }));
-  shadowMesh.receiveShadow = true;
-  shadowMesh.name = "shadowMesh"
-  //scene.add(shadowMesh);
-
   THREE.ARUtils.loadModel({
     objPath: OBJ_PATH,
     mtlPath: MTL_PATH,
@@ -105,8 +90,8 @@ function init() {
   });
 
   window.addEventListener('resize', onWindowResize, false);
+  canvas.addEventListener('click', objPick, false);
   canvas.addEventListener('click', spawn, false);
-  canvas.addEventListener('mousedown', test, false);
 
   update();
 }
@@ -151,7 +136,6 @@ function spawn(e) {
     return;
   }
 
-  // 衝突したらオブジェクトを描画
   if(hits && hits.length) {
     var hit = hits[0];
 
@@ -175,10 +159,10 @@ function spawn(e) {
     );
     model.rotation.set(0, angle, 0);
   }
+
 }
 
-
-function test(ret) {
+function objPick(ret) {
   var mouseX = ret.clientX;                           // マウスのx座標
   var mouseY = ret.clientY;                           // マウスのy座標
   mouseX =  (mouseX / window.innerWidth)  * 2 - 1;    // -1 ～ +1 に正規化されたx座標
@@ -188,10 +172,20 @@ function test(ret) {
   // レイキャスタを作成（始点, 向きのベクトル）
   var ray = new THREE.Raycaster(camera.position, pos.sub(camera.position).normalize());
   var obj = ray.intersectObjects(scene.children, true);   // レイと交差したオブジェクトの取得
-  if(obj.length > 0) {                                // 交差したオブジェクトがあれば
-    //picked(obj[0].object.name);                       // ピックされた対象に応じた処理を実行
-    alert(obj[0].object.name);
-  }
+
+  /*
+    obj[0].object.nameで得られる名前が
+    顔：「human_Group数字列」
+    顔以外：「Group数字列」
+    と、よくわからないネーミングがされている。
+    今のところどうでもいいがオブジェクトを２体以上配置するとき困る。
+    by 村田
+  */
+  if(obj.length > 0) {  // 交差したオブジェクト数
+    alert("touch");
+    window.location.href = './test.html'; 
+  } else alert("no-touch");
+
 };
 
 
