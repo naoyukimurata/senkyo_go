@@ -13,8 +13,8 @@ var planeGeometry;
 var light;
 var directionalLight;
 
-var OBJ_PATH = '../assets/abe/abe_body_test.obj';
-var MTL_PATH = '../assets/abe/abe_body_test.mtl';
+var OBJ_PATH = '../assets/abe/abe_face.obj';
+var MTL_PATH = '../assets/abe/abe_face.mtl';
 var SCALE = 0.1;
 
 //ARが使えるかどうかの判定
@@ -183,8 +183,8 @@ function objPick(ret) {
   */
   if(obj.length > 0) {  // 交差したオブジェクト数
     alert("touch");
-    window.location.href = './test.html'; 
-  } else alert("no-touch");
+    window.location.href = './test.html';
+  } //else alert("no-touch");
 
 };
 
