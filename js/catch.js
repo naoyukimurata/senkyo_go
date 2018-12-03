@@ -65,7 +65,7 @@ mtlLoader.load( "../assets/abe/abe_face.mtl", function( materials ) {
         //位置
         mesh.position.set(0, 0, 0);
         //傾き
-        mesh.rotation.set(0, -5, 0);
+        mesh.rotation.set(0, 0, 0);
         //大きさ(比率)
         mesh.scale.set(10, 10, 10);
         //追加
@@ -88,10 +88,10 @@ function update(){
     //アニメーションつけるためのものupdate関数自体を引数に渡す
     requestAnimationFrame( update );
     //まわる
-    if(mesh != undefined){
+    /*if(mesh != undefined){
             //まわる
             mesh.rotation.y += 0.01;
-        }
+    }*/
     //今の画面を消す
     render.clear();
     //新しい画面を表示する
