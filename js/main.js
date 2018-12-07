@@ -177,15 +177,11 @@ function objPick(ret) {
     obj[0].object.nameで得られる名前が
     顔：「human_Group数字列」
     顔以外：「Group数字列」
-    と、よくわからないネーミングがされている。
-    今のところどうでもいいがオブジェクトを２体以上配置するとき困る。
     by 村田
   */
   if(obj.length > 0) {  // 交差したオブジェクト数
-    alert("touch");
-    window.location.href = './test.html';
-  } //else alert("no-touch");
-
+    window.location.href = './catch.html';
+  } 
 };
 
 
