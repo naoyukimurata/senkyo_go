@@ -1,0 +1,40 @@
+/*
+  アイコンカラー
+  紫: rgb(97, 46, 154), #612e9a
+  黒: rgb(71, 73, 97), #474961
+*/
+
+body {
+  font-family: monospace;
+  margin: 0;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* 重なりが１番下の要素 */
+.bottom-element {
+  position: relative;
+  z-index: 0;
+  margin: 0;
+  padding: 0;
+  margin: auto;
+}
+/* 重ねる要素 */
+.overlay-element {
+    position: absolute;
+    z-index: 3;
+}
+
+.display-center {
+  -webkit-transform: translate(-50%,-50%);
+  -moz-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  -o-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  top: 45%;
+  left: 50%;
+}

@@ -1,0 +1,25 @@
+/* フッター */
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  background-color: #f5f5f5;
+  z-index: 1;
+  text-align: center;
+  border-top: 0.5px solid #B2B2B2;
+}
+.nav {
+    display: table;
+    width: 100%;
+}
+.nav__item {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+.nav__item img {
+    display: block;
+    text-decoration: none;
+    width: 30px;
+}

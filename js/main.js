@@ -32,7 +32,7 @@ function init() {
 
   //デバッグパネルを画面上に表示
   var arDebug = new THREE.ARDebug(vrDisplay);
-  document.body.appendChild(arDebug.getElement());
+  //document.body.appendChild(arDebug.getElement());
 
   //背景を透明にする
   renderer = new THREE.WebGLRenderer({ alpha: true });
@@ -181,7 +181,7 @@ function objPick(ret) {
   */
   if(obj.length > 0) {  // 交差したオブジェクト数
     window.location.href = './catch.html';
-  } 
+  }
 };
 
 
