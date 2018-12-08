@@ -12,6 +12,7 @@
 .nav {
     display: table;
     width: 100%;
+    padding-left: 0;
 }
 .nav__item {
     display: table-cell;
@@ -19,7 +20,6 @@
     vertical-align: middle;
 }
 .nav__item img {
-    display: block;
     text-decoration: none;
     width: 30px;
 }
