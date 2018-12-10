@@ -1,6 +1,7 @@
 var camera, scene, render, mesh;
 var sky, sunSphere, controls;
 var rot;
+var anime = false;
 
 window.onload = function(){
   init();
@@ -73,12 +74,13 @@ function init() {
 
   camera.position.set(0, 8, 60);
   camera.lookAt(new THREE.Vector3(0, 12, 4));
-
   setTimeout(function(){
     $('#firstText').hide();
-    cameraAnimation();
-  },4000);
+    if(anime == false) cameraAnimation();
+    else {
 
+    }
+  },4000);
 }
 
 function initGround() {
@@ -118,6 +120,17 @@ function cameraAnimation() {
   // レンダリング
   render.render(scene, camera);
   requestAnimationFrame(cameraAnimation);
+
+  if(camera.position.y >= 13 && camera.position.z >= 100) {
+    anime = true;
+    $('.hp-box').show('slide');
+    setTimeout(function(){
+      $('#question-box').show('fold');
+    },2000);
+    setTimeout(function(){
+      $('#answer-box').show('drop');
+    },4000);
+  }
 }
 
 function onWindowResize() {
@@ -138,7 +151,7 @@ function update(){
     render.render(scene,camera);
 }
 
-/*
-  TextBoardObjectクラス
-  http://www.natural-science.or.jp/article/20161205233604.php
-*/
+/* lifebar */
+function lifeBarSetting() {
+
+}
