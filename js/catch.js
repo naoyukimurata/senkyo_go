@@ -3,7 +3,13 @@ var sky, sunSphere, controls;
 var rot;
 var anime = false;
 
+var user;
+var giin;
+var questions;
+var qNum = 0;
+
 window.onload = function(){
+  getJson();
   init();
   update();
 
@@ -14,7 +20,34 @@ window.onload = function(){
   });
 }
 
+function getJson() {
+  user = {"id":"10001","name":"Yusuke Nakayama","sex":"M","email":"ymid5287@gamil.com"};
+  $('#user-name').text(user.name);
+
+  giin = {"id":"20001","name":"\u5b89\u500d\u664b\u4e09","sex":"M","age":"58","political_party":"\u6c11\u4e3b\u515a","thumbnail":"https:\/\/upload.wikimedia.org\/wikipedia\/commons\/thumb\/6\/6d\/Shinz%C5%8D_Abe_Official.jpg\/240px-Shinz%C5%8D_Abe_Official.jpg","3d_object":""}
+  $('#firstText').text('あ！野生の'+giin.name+'が現れた');
+  $('#moa-name').text(giin.name);
+
+  // 同一サーバから出ないとAPIを叩けないので仮JSON
+  questions = [{"id":"1","question":"\u3053\u308c\u306f\u30c6\u30b9\u30c8\u554f\u984c\u3067\u3059\u3002","choice1":"\u9078\u629e\u80a2A","choice2":"\u9078\u629e\u80a2B","choice3":"\u9078\u629e\u80a2C","choice4":"\u9078\u629e\u80a2D","answer":"choice4","point":"10"},
+  {"id":"2","question":"test","choice1":"test","choice2":"test","choice3":"test","choice4":"test","answer":"choice4","point":"10"},
+  {"id":"3","question":"test","choice1":"test","choice2":"test","choice3":"test","choice4":"test","answer":"choice4","point":"10"},
+]
+  setQuestion();
+}
+
+function setQuestion(){
+  $('#question').text(questions[qNum].question);
+  $('#choice1').text(questions[qNum].choice1);
+  $('#choice2').text(questions[qNum].choice2);
+  $('#choice3').text(questions[qNum].choice3);
+  $('#choice4').text(questions[qNum].choice4);
+
+  $('#answer-box').css({'pointer-events': 'auto'});
+}
+
 function init() {
+
   var target = document.getElementById("container");
   var width = window.innerWidth;
   var height = window.innerHeight;
@@ -163,12 +196,22 @@ var lifeBar;
 var timer;
 function ans(id) {
   // 正解
-  if(id == 1) {
+  if(id == questions[qNum].answer) {
     $('#'+id).css({
       'background-color':'#14f4b4',
       'pointer-events': 'none',
-    })
-    startLifeBar('giinLife');
+    });
+    $('#answer-box').css({'pointer-events': 'none'});
+    startLifeBar('giinLife', id);
+    // ライフバーが下がりきるまで待つ
+    setTimeout(function(){
+      $('#choice1').css({'background-color':'rgba(198,198,198,0.8)','pointer-events': 'auto',})
+      $('#choice2').css({'background-color':'rgba(198,198,198,0.8)','pointer-events': 'auto',})
+      $('#choice3').css({'background-color':'rgba(198,198,198,0.8)','pointer-events': 'auto',})
+      $('#choice4').css({'background-color':'rgba(198,198,198,0.8)','pointer-events': 'auto',})
+      qNum++;
+      setQuestion();
+    },2500);
   }
   // ミス
   else {
@@ -176,7 +219,12 @@ function ans(id) {
       'background-color':'#f31453',
       'pointer-events': 'none',
     });
+    $('#answer-box').css({'pointer-events': 'none'});
     startLifeBar('myLife');
+    // ライフバーが下がりきるまで待つ
+    setTimeout(function(){
+      $('#answer-box').css({'pointer-events': 'auto'});
+    },2500);
   }
 }
 function startLifeBar(bar) {
@@ -187,19 +235,24 @@ function startLifeBar(bar) {
     lifeBar.value--;
     if(count == 30) {
       clearInterval(timer);
-      if(lifeBar.value == 0) {
+      if(lifeBar.value <= 0) {
+        $('#question-box').hide();
+        $('#answer-box').hide();
         // 負け
         if(bar == 'myLife') {
-          $('#question-box').hide();
-          $('#answer-box').hide();
-          $('#looseText').show('drop');
+          $('#lwText').show('drop');
+          $('#lwText').text('敗戦…。野生の'+giin.name+'に逃げられた');
           setTimeout(function(){
             window.location.href = './';
-          },3000);
+          },4000);
         }
         // 勝ち
         else {
-
+          $('#lwText').text('やったー！'+giin.name+'をゲットした！');
+          $('#lwText').show('drop');
+          setTimeout(function(){
+            window.location.href = './';
+          },4000);
         }
       }
     }

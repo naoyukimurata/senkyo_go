@@ -1,8 +1,5 @@
-#looseText {
-    display: none;
-}
-#winText {
-    display: none;
+#lwText {
+  display: none;
 }
 .p {
   text-align: center;
