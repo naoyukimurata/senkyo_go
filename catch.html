@@ -20,34 +20,36 @@
 
    <body>
       <div id="container" class="bottom-element">
-        <p id="firstText" class="overlay-element display-center">あ！野生の安倍総理が現れた！</p>
+        <p id="firstText" class="p overlay-element display-center">あ！野生の安倍総理が現れた！</p>
+        <p id="looseText" class="p overlay-element display-center">敗戦…。野生の安倍総理に逃げられた</p>
+        <p id="winText" class="p overlay-element display-center">やったー！安倍総理をゲットした</p>
 
-        <div id="question-box">
-          <p id="question" class="overlay-element display-top15p">Q1. 私のおちんちんは何センチでしょうか？</p>
+        <div id="question-box" class="overlay-element display-top15p">
+          <p>Q1. 私のおちんちんは何センチでしょうか？</p>
         </div>
 
         <div id="moa-box" class="hp-box overlay-element display-top40p">
           <p id="moa-name">安倍総理</p>
           <div class="bar-border">
-            <progress class="lifeBar" value="90" max="90" min="0" optimum="90"></progress>
+            <progress class="lifeBar" id="giinLife" value="90" max="90" min="0" optimum="90"></progress>
           </div>
         </div>
 
         <iv id="answer-box" class="display-top80p overlay-element">
           <div class="a-row">
-            <p id="a-one" class="choices">1cm</p>
-            <p id="a-two" class="choices">2cm</p>
+            <p id="1" class="choices">1cm</p>
+            <p id="2" class="choices">2cm</p>
           </div>
           <div class="a-row">
-            <p id="a-three" class="choices">3cm</p>
-            <p id="a-four" class="choices">20cm</p>
+            <p id="3" class="choices">3cm</p>
+            <p id="4" class="choices">20cm</p>
           </div>
         </div>
 
         <div id="user-box" class="hp-box overlay-element display-top95p">
           <p id="me-name">me</p>
           <div class="bar-border">
-            <progress class="lifeBar" value="90" max="90" min="0" optimum="90"></progress>
+            <progress class="lifeBar" id="myLife" value="90" max="90" min="0" optimum="90"></progress>
           </div>
         </div>
       </div>

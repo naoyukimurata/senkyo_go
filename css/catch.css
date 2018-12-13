@@ -1,14 +1,21 @@
-#firstText {
+#looseText {
+    display: none;
+}
+#winText {
+    display: none;
+}
+.p {
   text-align: center;
   font-size: 18px;
   padding: 5px;
   color: rgba(255,255,255,1);
-  background-color: rgba(198,198,198,0.4);
+  background-color: rgba(198,198,198,0.7);
   letter-spacing: 3px;
   border-radius: 12px;
   width: 90%;
 }
 
+/* ライフゲージ */
 .hp-box {
   display: none;
   background-color: rgba(198,198,198,0.6);
@@ -27,31 +34,36 @@
   display: inline-block;
   -webkit-appearance: none;
   appearance: none;
-  height: 3px;
+  height: 5px;
   vertical-align: -0.2em;
 }
 .lifeBar::-webkit-progress-bar {
-    background: #ccc;
+    background: #f31453;
 }
 .lifeBar::-webkit-progress-value {
   background-color: #14f4b4;
 }
 
+/* 問題 */
 #question-box {
-  display: none;
+  visibility: hidden;
+  width: 90%;
+  height: 20%;
+  background-color: rgba(198,198,198,0.4);
+  margin:0 auto;
+  display:table;
 }
-#question {
+#question-box p {
   text-align: center;
   border-radius: 12px;
   padding: 5px;
-  width: 90%;
-  height: 20%;
   color: rgba(255,255,255,1);
   display: table-cell;
+  text-align:center;
   vertical-align: middle;
-  background-color: rgba(198,198,198,0.4);
 }
 
+/* 回答 */
 #answer-box {
   display: none;
   width: 100%;

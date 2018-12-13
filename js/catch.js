@@ -6,6 +6,12 @@ var anime = false;
 window.onload = function(){
   init();
   update();
+
+  // 回答クリック判定
+  $('.choices').on('click', function(){
+      var id =  $(this).attr("id");
+      ans(id);
+  });
 }
 
 function init() {
@@ -76,10 +82,7 @@ function init() {
   camera.lookAt(new THREE.Vector3(0, 12, 4));
   setTimeout(function(){
     $('#firstText').hide();
-    if(anime == false) cameraAnimation();
-    else {
-
-    }
+    cameraAnimation();
   },4000);
 }
 
@@ -121,15 +124,19 @@ function cameraAnimation() {
   render.render(scene, camera);
   requestAnimationFrame(cameraAnimation);
 
-  if(camera.position.y >= 13 && camera.position.z >= 100) {
-    anime = true;
-    $('.hp-box').show('slide');
-    setTimeout(function(){
-      $('#question-box').show('fold');
-    },2000);
-    setTimeout(function(){
-      $('#answer-box').show('drop');
-    },4000);
+  if(anime == false) {
+    if(camera.position.y >= 13 && camera.position.z >= 100) {
+      anime = true;
+      $('.hp-box').show('slide');
+      setTimeout(function(){
+        $('#question-box')
+        .css({'visibility':'visible'})
+        .animate({'marginTop': '0'}, 500);
+      },2000);
+      setTimeout(function(){
+        $('#answer-box').show('drop');
+      },4000);
+    }
   }
 }
 
@@ -151,7 +158,50 @@ function update(){
     render.render(scene,camera);
 }
 
-/* lifebar */
-function lifeBarSetting() {
+/* 回答 */
+var lifeBar;
+var timer;
+function ans(id) {
+  // 正解
+  if(id == 1) {
+    $('#'+id).css({
+      'background-color':'#14f4b4',
+      'pointer-events': 'none',
+    })
+    startLifeBar('giinLife');
+  }
+  // ミス
+  else {
+    $('#'+id).css({
+      'background-color':'#f31453',
+      'pointer-events': 'none',
+    });
+    startLifeBar('myLife');
+  }
+}
+function startLifeBar(bar) {
+  var count = 0;
+  lifeBar = document.getElementById(bar);
+  timer = setInterval(function() {
+    count++;
+    lifeBar.value--;
+    if(count == 30) {
+      clearInterval(timer);
+      if(lifeBar.value == 0) {
+        // 負け
+        if(bar == 'myLife') {
+          $('#question-box').hide();
+          $('#answer-box').hide();
+          $('#looseText').show('drop');
+          setTimeout(function(){
+            window.location.href = './';
+          },3000);
+        }
+        // 勝ち
+        else {
 
+        }
+      }
+    }
+  },50);
 }
