@@ -15,12 +15,14 @@ var directionalLight;
 
 //var OBJ_PATH = '../assets/abe/abe_face.obj';
 //var MTL_PATH = '../assets/abe/abe_face.mtl';
-var OBJ_PATH = '../assets/abe/abe_battle.obj';
-var MTL_PATH = '../assets/abe/abe_battle.mtl';
+//var OBJ_PATH = '../assets/abe/abe_battle.obj';
+//var MTL_PATH = '../assets/abe/abe_battle.mtl';
 //var OBJ_PATH = '../assets/ishiba/ishiba_battle.obj';
 //var MTL_PATH = '../assets/ishiba/ishiba_battle.mtl';
 //var OBJ_PATH = '../assets/utiumi/utiumi_battle.obj';
 //var MTL_PATH = '../assets/utiumi/utiumi_battle.mtl';
+var OBJ_PATH = '../assets/utiumi/utiumi.obj';
+var MTL_PATH = '../assets/utiumi/utiumi.mtl';
 var SCALE = 0.1;
 
 //ARが使えるかどうかの判定

@@ -10,9 +10,9 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd purple-tie_suits.jpg
+map_Kd ishiba.jpg
 
-newmtl Mii_texture.002_ishiba.jpg
+newmtl Mii_texture.002_purple-tie_suits.jpg
 Ns 103.921569
 Ka 0.500000 0.500000 0.500000
 Kd 0.500000 0.500000 0.500000
@@ -21,4 +21,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd ishiba.jpg
+map_Kd purple-tie_suits.jpg
