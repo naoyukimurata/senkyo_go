@@ -36,6 +36,7 @@ THREE.ARUtils.getARDisplay().then(function (display) {
 });
 
 function init() {
+  alert("main");
   //gps();
 
   //デバッグパネルを画面上に表示
